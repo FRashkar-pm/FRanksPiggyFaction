@@ -1,0 +1,9 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/FRashkar-pm/FRanksPiggyFaction
+build-by-default: true
+branches:
+- main
+projects:
+  FRanksPiggyFaction:
+    path: ""
+    icon: "icon.png"
+...
