@@ -30,17 +30,12 @@ class Main extends PluginBase
 {
     protected function onEnable() : void 
     {
-        if (self::getRankSystem() === null)
+        if (self::getRankSystem() === null || self::getPiggyFaction() === null)
         {
-            $this->getLogger()->notice("There are no RankSystem plugin.");
-            $this->disablePlugin($this);
+            $this->getLogger()->notice("There are no RankSystem or PiggyFactions plugin.");
+        } else {
+            $this->setPiggyFactionSupport();
         }
-        if (self::getPiggyFaction() === null)
-        {
-            $this->getLogger()->info("There are no PiggyFactions plugin.");
-            $this->disablePlugin($this);
-        }
-        $this->setPiggyFactionSupport();
     }
 
     private static function getRankSystem() : ?RankSystem
@@ -56,6 +51,7 @@ class Main extends PluginBase
     private static function getPlayerFaction(Player $player) : string 
     {
 		$piggyFactions = self::getPiggyFaction();
+        if ($piggyFactions === null) return "";
 		$member = $piggyFactions->getPlayerManager()->getPlayer($player);
 		if ($member === null) return "";
 		if ($member !== null)
@@ -69,6 +65,7 @@ class Main extends PluginBase
     private function setPiggyFactionSupport() : void 
     {
         $rankSystem = self::getRankSystem();
+        if ($rankSystem === null) return;
         $tagManager = $rankSystem->getTagManager();
         $tagManager->registerTag(new Tag("fac_name", static function(Session $user) : string {
 			$player = $user->getPlayer();
