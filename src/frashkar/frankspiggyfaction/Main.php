@@ -40,12 +40,12 @@ class Main extends PluginBase
 
     private static function getRankSystem() : ?RankSystem
     {
-        return Server::getInstance()->getPluginManager()->getPlugin("RankSystem");
+        return Server::getInstance()->getPluginManager()->getPlugin("RankSystem") ?? null;
     }
 
     private static function getPiggyFaction() : ?PiggyFactions
     {
-        return Server::getInstance()->getPluginManager()->getPlugin("PiggyFactions");
+        return Server::getInstance()->getPluginManager()->getPlugin("PiggyFactions") ?? null;
     }
 
     private static function getPlayerFaction(Player $player) : string 
