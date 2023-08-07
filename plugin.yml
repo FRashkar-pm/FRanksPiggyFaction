@@ -1,6 +1,6 @@
 name: FRanksPiggyFaction
 api: 5.0.0
-version: 0.1.0
+version: 1.0.0
 main: frashkar\frankspiggyfaction\Main
 author: FRashkar-pm
 softdepend:
