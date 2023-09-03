@@ -30,8 +30,7 @@ class Main extends PluginBase
 {
     protected function onEnable() : void 
     {
-        if (self::getRankSystem() === null || self::getPiggyFaction() === null)
-        {
+        if (self::getRankSystem() === null || self::getPiggyFaction() === null){
             $this->getLogger()->notice("There are no RankSystem or PiggyFactions plugin.");
         } else {
             $this->setPiggyFactionSupport();
@@ -40,27 +39,32 @@ class Main extends PluginBase
 
     private static function getRankSystem() : ?RankSystem
     {
-        return Server::getInstance()->getPluginManager()->getPlugin("RankSystem") ?? null;
+        if (Server::getInstance()->getPluginManager()->getPLugin("RankSystem") !== null){
+            return RankSystem::getInstance();
+        }
+        return null;
     }
 
     private static function getPiggyFaction() : ?PiggyFactions
     {
-        return Server::getInstance()->getPluginManager()->getPlugin("PiggyFactions") ?? null;
+        if (Server::getInstance()->getPluginManager()->getPLugin("PiggyFactions") !== null){
+            return PiggyFactions::getInstance();
+        }
+        return null;
     }
 
     private static function getPlayerFaction(Player $player) : string 
     {
-		$piggyFactions = self::getPiggyFaction();
+        $piggyFactions = self::getPiggyFaction();
         if ($piggyFactions === null) return "";
-		$member = $piggyFactions->getPlayerManager()->getPlayer($player);
-		if ($member === null) return "";
-		if ($member !== null)
-		{
-			$faction = $member->getFaction();
-			if ($faction === null) return "";
-			return $faction->getName();
-		}
-	}
+        $member = $piggyFactions->getPlayerManager()->getPlayer($player);
+        if ($member === null) return "";
+        if ($member !== null){
+            $faction = $member->getFaction();
+            if ($faction === null) return "";
+            return $faction->getName();
+        }
+    }
 
     private function setPiggyFactionSupport() : void 
     {
@@ -68,12 +72,11 @@ class Main extends PluginBase
         if ($rankSystem === null) return;
         $tagManager = $rankSystem->getTagManager();
         $tagManager->registerTag(new Tag("fac_name", static function(Session $user) : string {
-			$player = $user->getPlayer();
-			if ($player === null) return "";
-			if ($player instanceof Player)
-			{
-				return self::getPlayerFaction($player);
-			}
-		}));
+            $player = $user->getPlayer();
+            if ($player === null) return "";
+            if ($player instanceof Player){
+                return self::getPlayerFaction($player);
+            }
+        }));
     }
 }
