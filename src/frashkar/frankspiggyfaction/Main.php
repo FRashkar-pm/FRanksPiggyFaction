@@ -66,6 +66,18 @@ class Main extends PluginBase
         }
     }
 
+    private static function getPlayerFactionPower(Player $player) : string
+    {
+        $piggyFactions = self::getPiggyFaction();
+        if ($piggyFactions === null) return "";
+        $member = $piggyFactions->getPlayerManager()->getPlayer($player);
+        if ($member === null) return "";
+        if ($member !== null){
+            $power = round($member->getPower(), 1);
+            return (string) $power;
+        }
+    }
+
     private function setPiggyFactionSupport() : void 
     {
         $rankSystem = self::getRankSystem();
@@ -76,6 +88,13 @@ class Main extends PluginBase
             if ($player === null) return "";
             if ($player instanceof Player){
                 return self::getPlayerFaction($player);
+            }
+        }));
+        $tagManager->registerTag(new Tag("fac_power", static function(Session $user) : string {
+            $player = $user->getPlayer();
+            if ($player === null) return "";
+            if ($player instanceof Player){
+                return self::getPlayerFactionPower($player);
             }
         }));
     }
